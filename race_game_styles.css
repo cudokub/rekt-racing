@@ -34,12 +34,12 @@ body {
 }
 .result-item  {
   display: inline-block;
-  margin: 0 12px;
-  font-size: 12px;
+  font-size: 10px;
+  margin: 0 8px;
 }
 .result-item span:first-child {
   font-weight: bold;
-  font-size: 14px;
+  font-size: 12px;
   display: inline-block;
 }
 .result-img {
@@ -57,6 +57,8 @@ body {
   }
   #raceControls, #availablechickensdiv {
     width: 100%;
+    border-radius: 16px;
+    border: 6px solid black;
   }
 }
 
@@ -93,21 +95,23 @@ body {
   font-family: 'Press Start 2P', cursive;
   background-color: blue;
   color: white;
-  padding: 20px;
+  padding: 8px 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 12px;
+  line-height: 1.2;
 }
 .random-button {
   font-family: 'Press Start 2P', cursive;
   background-color: green;
   color: white;
-  padding: 10px 20px;
+  padding: 8px 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 12px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 12px;
+  line-height: 1.2;
   margin-top: 16px;
 }
 .random-button.disabled {
@@ -118,6 +122,7 @@ body {
   background-color: grey;
   cursor: not-allowed;
 }
+
 .chicken-button {
   display: flex;
   align-items: center;
@@ -178,10 +183,13 @@ table {
 }
 .inline-container {
   display: flex;
-  align-items: center;
+  align-items: left;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
 }
 .inline-item { /* ตารางซ้าย */
-  display: inline-block;
+  display: flex;
   margin-left: 8px;
 }
 th, td { /* เนื้อหาในตาราง */
@@ -207,5 +215,36 @@ th, td { /* เนื้อหาในตาราง */
 
 
 
+.race-button, .random-button, .reset-button {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Example shadow */
+  transition: transform 0.1s, box-shadow 0.1s; /* Smooth transition for the press effect below */
+}
 
+.race-button:active, .random-button:active, .reset-button:active {
+  transform: translateY(2px);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); 
+}
+
+#resetRace {
+  background-color: orange;
+  margin-top: 16px;
+}
+
+.reset-button {
+  font-family: 'Press Start 2P', cursive;
+  background-color: black;
+  color: white;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1.2;
+  margin-top: 16px;
+}
+
+.reset-button.disabled {
+  background-color: grey !important;
+  cursor: not-allowed !important;
+}
 

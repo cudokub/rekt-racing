@@ -8,7 +8,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Open race_game_separated.html",
-            "file": "/Users/cudo/Desktop/rekt-race/race_game_separated.html"
+            "file": "/Users/cudo/Desktop/rekt-race/index.html"
         }
     ]
 }

@@ -6,7 +6,6 @@
   <meta charset="UTF-8">
   <title>Rekt Racing</title>
   <link rel="stylesheet" href="race_game_styles.css">
-  <script src="race_game_logic.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 
@@ -18,7 +17,7 @@
   
   <div class="container">
     <div class="raceResultPopup" class="popup"></div>
-      <canvas id="gameCanvas" width="1920" height="646"></canvas>
+      <canvas id="gameCanvas" width="1480" height="646"></canvas>
       <div class="raceResultPopup" class="popup"></div>
   </div>
 
@@ -28,6 +27,7 @@
             <button id="startRace" class="race-button" onclick="startRace()">Start Race</button>
             <button id="nextRace" class="race-button" onclick="prepareNextRace()" style="display:none;">Next Race</button>
             <button id="randomSelectButton" class="random-button" button onclick="randomSelectChickens()">Randomly Select Chickens</button>
+            <button id="resetRace" class="reset-button" onclick="resetRace()">Reset Race</button>
           </div>
           
           <div id="availablechickensdiv">
@@ -37,47 +37,49 @@
   </div>
     
   <div class="tables-container">
-        <div id="leaderboard-section">
-              <div id="chicken-leaderboard">
-                <h5>Chicken Leaderboard</h5>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Rank</th>
-                      <th>Name</th>
-                      <th>Points</th>
-                    </tr>
-                  </thead>
-                  <tbody id="chickenLeaderboardBody">
-                    <!-- Chicken Rankings will be inserted here -->
-                  </tbody>
-                </table>
-              </div>
-        </div>
-        <div class="table-container">
-              <div>
-                  <h5>Race Results</h5> <!-- Add this line -->
-                  <table id="raceResultsTable">
-                      <thead>
-                        <tr>
-                          <th>Race #</th>
-                          <th>1st</th>
-                          <th>2nd</th>
-                          <th>3rd</th>
-                          <th>4th</th>
-                          <th>5th</th>
-                          <th>6th</th>
-                          <th>7th</th>
-                          <th>8th</th>
-                        </tr>
-                      </thead>
-                      <tbody id="raceResultsBody">
-                        <!-- Race results will be inserted here -->
-                      </tbody>
-                  </table>
-              </div>
-        </div>
+    <div id="leaderboard-section">
+      <div id="chicken-leaderboard">
+        <h5>Chicken Leaderboard</h5>
+        <table>
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Name</th>
+              <th>Points</th>
+            </tr>
+          </thead>
+          <tbody id="chickenLeaderboardBody">
+            <!-- Chicken Rankings will be inserted here -->
+          </tbody>
+        </table>
+      </div>
+</div>
+    <div class="table-container">
+      <div>
+          <h5>Race Results</h5> <!-- Add this line -->
+          <table id="raceResultsTable">
+              <thead>
+                <tr>
+                  <th>Race #</th>
+                  <th>1st</th>
+                  <th>2nd</th>
+                  <th>3rd</th>
+                  <th>4th</th>
+                  <th>5th</th>
+                  <th>6th</th>
+                  <th>7th</th>
+                  <th>8th</th>
+                </tr>
+              </thead>
+              <tbody id="raceResultsBody">
+                <!-- Race results will be inserted here -->
+              </tbody>
+          </table>
+      </div>
+    </div>
+
   </div>
+  <script src="race_game_logic.js"></script>
 
 </body>
 </html>

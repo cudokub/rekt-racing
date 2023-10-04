@@ -9,11 +9,11 @@ let leaderboardData = [];
 let globalTime = 0;
 let replayData = [];
 let stopReplay = false;
-let cheeringSound = new Audio('https://rektgang.mypinata.cloud/ipfs/QmVPzhKmpADgcVj92bASXzTfTA8JzuF2hUFud9RZgAfrF4?_gl=1*1gla2ue*_ga*MTQ2ODA0NTgxNS4xNjUzODgyMDYy*_ga_5RMPXG14TE*MTY5NjQwNjg5OS4yNC4xLjE2OTY0MDY5MTMuNDYuMC4w');
+let cheeringSound = new Audio('https://rektgang.mypinata.cloud/ipfs/QmVPzhKmpADgcVj92bASXzTfTA8JzuF2hUFud9RZgAfrF4?_gl=1*tsafwh*_ga*MTQ2ODA0NTgxNS4xNjUzODgyMDYy*_ga_5RMPXG14TE*MTY5NjQyMTg5MC4yNS4xLjE2OTY0MjE4OTguNTIuMC4w');
 cheeringSound.loop = true;
-let beepSound = new Audio('https://rektgang.mypinata.cloud/ipfs/Qmbf8xqZr3PVg9eCKhfCEjPjFHEcYt1rDHp8haLo5KLvVG?preview=1&_gl=1*g8jxzk*_ga*MTQ2ODA0NTgxNS4xNjUzODgyMDYy*_ga_5RMPXG14TE*MTY5NjQwNjg5OS4yNC4xLjE2OTY0MDc5ODMuNDYuMC4w');
+let beepSound = new Audio('https://rektgang.mypinata.cloud/ipfs/Qmbf8xqZr3PVg9eCKhfCEjPjFHEcYt1rDHp8haLo5KLvVG?_gl=1*tsafwh*_ga*MTQ2ODA0NTgxNS4xNjUzODgyMDYy*_ga_5RMPXG14TE*MTY5NjQyMTg5MC4yNS4xLjE2OTY0MjE4OTguNTIuMC4w');
 const startLine = 100;
-const finishLine = 1820;
+const finishLine = 1380;
 const imageSize = 56;
 const trackHeight = 80;
     
@@ -221,16 +221,28 @@ function prepareNextRace() {
   let raceResultPopups = document.getElementsByClassName("raceResultPopup");
   for(let i = 0; i < raceResultPopups.length; i++) {
     raceResultPopups[i].innerHTML = "";
-  }  const startRaceButton = document.getElementById("startRace");
+  }  
+  const startRaceButton = document.getElementById("startRace");
   startRaceButton.style.display = "block";
   startRaceButton.classList.remove("disabled");
   startRaceButton.disabled = false;
   drawTrackLines();
   cheeringSound.pause();
   cheeringSound.currentTime = 0; // Reset the sound to the start
+
   const randomSelectButton = document.getElementById("randomSelectButton");
   randomSelectButton.disabled = false;
-  randomSelectButton.classList.remove("disabled");}
+  randomSelectButton.classList.remove("disabled");
+
+  const resetRaceButton = document.getElementById("resetRace");
+  resetRaceButton.classList.remove("disabled");
+  resetRaceButton.disabled = false;
+}
+
+
+
+
+
 
 // drawTrackLines
 function drawTrackLines() {
@@ -266,12 +278,13 @@ function drawTrackLines() {
       ctx.beginPath();  // Close path
     }
     drawFlag();
-}
+  }
+
 
 //drawFlag
 function drawFlag() {
-  const flagStart = 1820;
-  const flagEnd = 1920;
+  const flagStart = 1380;
+  const flagEnd = 1480;
   const flagWidth = flagEnd - flagStart;
   const stripeHeight = canvas.height / 8; // 8 stripes for 8 chickens
   const squareSize = flagWidth / 8; // 8 squares per stripe
@@ -374,6 +387,10 @@ function startReplay() {
 
   let replayIndex = startIndex;
 
+  const resetRaceButton = document.getElementById("resetRace");
+  resetRaceButton.classList.add("disabled");
+  resetRaceButton.disabled = true;
+
   function replayLoop() {
     if (stopReplay) return;
 
@@ -448,6 +465,10 @@ function startRace() {
   const startRaceButton = document.getElementById("startRace");
   startRaceButton.classList.add("disabled");
   startRaceButton.disabled = true;
+
+  const resetRaceButton = document.getElementById("resetRace");
+  resetRaceButton.classList.add("disabled");
+  resetRaceButton.disabled = true;
 
   let countdown = 3;
   const countdownInterval = setInterval(() => {
@@ -593,3 +614,31 @@ window.onload = function() {
         createChickenButton(i, chicken.username, chicken.name, chicken.imageUrl);
       }
 }
+
+
+
+
+
+
+
+
+
+// resetRace
+function resetRace() {
+  // Clear the entire canvas
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawTrackLines();  // Assuming you have a function to redraw the track lines
+
+  // Clear the chickens array
+  chickens = [];
+
+  const resetRaceButton = document.getElementById("resetRace");
+  resetRaceButton.classList.remove("disabled");
+  resetRaceButton.disabled = false;
+
+  // Reset the "in-race" class for all chicken buttons
+  availableChickens.forEach((chicken, id) => {
+    document.getElementById(`chicken-${id}`).classList.remove("in-race");
+  });
+}
+
