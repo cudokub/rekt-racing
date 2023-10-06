@@ -9,12 +9,12 @@ let leaderboardData = [];
 let globalTime = 0;
 let replayData = [];
 let stopReplay = false;
-let cheeringSound = new Audio('https://rektgang.mypinata.cloud/ipfs/QmVPzhKmpADgcVj92bASXzTfTA8JzuF2hUFud9RZgAfrF4?_gl=1*tsafwh*_ga*MTQ2ODA0NTgxNS4xNjUzODgyMDYy*_ga_5RMPXG14TE*MTY5NjQyMTg5MC4yNS4xLjE2OTY0MjE4OTguNTIuMC4w');
+let cheeringSound = new Audio('https://rektgang.mypinata.cloud/ipfs/QmSiQgh4z7s7kQS4xXirpzk3vpYqRhPCegQMzobzWFQocA?_gl=1*nnp5au*_ga*MTQ2ODA0NTgxNS4xNjUzODgyMDYy*_ga_5RMPXG14TE*MTY5NjYwNzY1MC4yNi4xLjE2OTY2MDg1MDcuNDcuMC4w');
 cheeringSound.loop = true;
 let beepSound = new Audio('https://rektgang.mypinata.cloud/ipfs/Qmbf8xqZr3PVg9eCKhfCEjPjFHEcYt1rDHp8haLo5KLvVG?_gl=1*tsafwh*_ga*MTQ2ODA0NTgxNS4xNjUzODgyMDYy*_ga_5RMPXG14TE*MTY5NjQyMTg5MC4yNS4xLjE2OTY0MjE4OTguNTIuMC4w');
 const startLine = 100;
 const finishLine = 1340;
-const imageSize = 56;
+const imageSize = 48;
 const trackHeight = 70;
     
 // Chicken Class
@@ -24,7 +24,7 @@ class Chicken {
     this.name = name;
     this.x = x + 25;
     this.y = (trackIndex + 1) * trackHeight - imageSize;
-    this.speed = (Math.random() * 3 + 2) * 0.50;
+    this.speed = ((Math.random() * 3 + 2) * 0.50) * 0.4;  // Multiply by 0.4 to slow down
     this.image = new Image();
     this.image.src = imageUrl;
     this.dirty = true;
@@ -335,11 +335,11 @@ function gameLoop() {
         
         // Dynamic speed adjustment logic starts here
         if (globalTime % 10 === 0) {
-          chicken.speed += (Math.random() * 2 - 1);
-          chicken.speed = Math.max(2, Math.min(5, chicken.speed));
+          chicken.speed += (Math.random() * 5 - 2) * 0.4;  // Multiply by 0.4 to slow down
+          chicken.speed = Math.max(0.8, Math.min(2, chicken.speed));  // Adjust the range to be slower
         }
 
-        if (globalTime % 3.5 === 0) {  
+        if (globalTime % 5 === 0) {  
           chicken.shouldJump = !chicken.shouldJump;
           chicken.jumpHeight = chicken.shouldJump ? Math.random() * 2 - 5 : 0;  
         }
