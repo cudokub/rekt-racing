@@ -336,7 +336,7 @@ function gameLoop() {
         
         // Dynamic speed adjustment logic starts here
         if (globalTime % 10 === 0) {
-          chicken.speed += (Math.random() * 7 - 2) * 0.4;  // Multiply by 0.4 to slow down
+          chicken.speed += (Math.random() * 2 - 1) * 0.4;  // Multiply by 0.4 to slow down
           chicken.speed = Math.max(0.8, Math.min(2, chicken.speed));  // Adjust the range to be slower
         }
 
@@ -717,7 +717,7 @@ function updateRacePopupText(stage) {
       text = "<span style='font-size:12px;'>Countdown started. Get ready!</span>";
       break;
     case 3:
-      text = "<span style='font-size:12px;'>Race started! GO! GO!</span>";
+      text = "<span style='font-size:12px;'>Race started! GO! GO! GO!</span>";
       break;
     case 5:
       text = "<span style='font-size:12px;'>Welcome back! Choose your 'Chickens' and click 'Start Race' to begin a new race.</span>";
