@@ -224,7 +224,7 @@ body {
 table {
   width: 100%;
   border-collapse: collapse;
-  white-space: nowrap;
+  line-height: 1.5;
 }
 .inline-container {
   display: flex;
@@ -239,9 +239,10 @@ table {
 th, td { /* เนื้อหาในตาราง */
   border: 2px solid #000000;
   text-align: center;
-  padding: 12px;
+  padding: 8px;
   background-color: #121212;
   font-size: 11px;
+  gap: 16px;
 }
 
 .race-result-username, /* ตัวอักษรที่อยู่ข้างรูป */
@@ -250,12 +251,6 @@ th, td { /* เนื้อหาในตาราง */
 }
 
 
-
-
-
-#raceResultsBody td div {
-  margin-bottom: 8px;  /* Adjust as needed */
-}
 
 
 
