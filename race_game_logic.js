@@ -291,6 +291,7 @@ function drawTrackLines() {
   ctx.strokeStyle = "#000000";  // Border color
   ctx.lineWidth = 4;  // Border width
   ctx.strokeRect(2, 2, canvas.width - 4, canvas.height - 4);  // Draw border inside
+  ctx.beginPath();
 
   }
 
