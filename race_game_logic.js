@@ -12,10 +12,10 @@ let stopReplay = false;
 let cheeringSound = new Audio('https://rektgang.mypinata.cloud/ipfs/QmSiQgh4z7s7kQS4xXirpzk3vpYqRhPCegQMzobzWFQocA?_gl=1*nnp5au*_ga*MTQ2ODA0NTgxNS4xNjUzODgyMDYy*_ga_5RMPXG14TE*MTY5NjYwNzY1MC4yNi4xLjE2OTY2MDg1MDcuNDcuMC4w');
 cheeringSound.loop = true;
 let beepSound = new Audio('https://rektgang.mypinata.cloud/ipfs/Qmbf8xqZr3PVg9eCKhfCEjPjFHEcYt1rDHp8haLo5KLvVG?_gl=1*tsafwh*_ga*MTQ2ODA0NTgxNS4xNjUzODgyMDYy*_ga_5RMPXG14TE*MTY5NjQyMTg5MC4yNS4xLjE2OTY0MjE4OTguNTIuMC4w');
-const startLine = 100;
+const startLine = 124;
 const finishLine = 1340;
-const imageSize = 48;
-const trackHeight = 70;
+const imageSize = 80;
+const trackHeight = 112;
     
 // Chicken Class
 class Chicken {
@@ -72,8 +72,8 @@ function toggleChicken(id) {
   const existingIndex = chickens.findIndex(c => c.name === chicken.name);
 
   if (existingIndex === -1) {
-    if (chickens.length >= 8) {
-      alert("Maximum 8 chickens allowed in a race.");
+    if (chickens.length >= 5) {
+      alert("Maximum 5 chickens allowed in a race.");
       return;
     }
     const newChicken = new Chicken(chicken.username, chicken.name, 0, chickens.length, chicken.imageUrl, chicken.imageNoBgUrl);
@@ -257,7 +257,7 @@ function drawTrackLines() {
 
     // Line in between
     ctx.strokeStyle = "#F19E34";
-    for (let i = 1; i < 9; i++) {
+    for (let i = 1; i < 6; i++) {
       ctx.lineWidth = 16;
       ctx.moveTo(0, i * trackHeight);
       ctx.lineTo(1480, i * trackHeight);
@@ -268,7 +268,7 @@ function drawTrackLines() {
   // Draw start line
   if (!raceStarted) {
     ctx.strokeStyle = "#000000";
-    ctx.lineWidth = 4;
+    ctx.lineWidth = 6;
     ctx.moveTo(startLine, 0);
     ctx.lineTo(startLine, canvas.height);
     ctx.stroke();
@@ -300,12 +300,12 @@ function drawFlag() {
   const flagStart = 1340;
   const flagEnd = 1480;
   const flagWidth = flagEnd - flagStart;
-  const stripeHeight = canvas.height / 8; // 8 stripes for 8 chickens
-  const squareSize = flagWidth / 8; // 8 squares per stripe
+  const stripeHeight = canvas.height / 5; // 5 stripes for 5 chickens
+  const squareSize = flagWidth / 5; // 5 squares per stripe
 
-  for (let i = 0; i < 8; i++) { // Loop for each track
-    for (let j = 0; j < 8; j++) { // Loop for each stripe
-      for (let k = 0; k < 8; k++) { // Loop for each square
+  for (let i = 0; i < 5; i++) { // Loop for each track
+    for (let j = 0; j < 5; j++) { // Loop for each stripe
+      for (let k = 0; k < 5; k++) { // Loop for each square
         ctx.fillStyle = (j + k) % 2 === 0 ? 'black' : 'white';
         ctx.fillRect(flagStart + k * squareSize, i * stripeHeight + j * squareSize, squareSize, squareSize);
       }
@@ -470,8 +470,8 @@ function drawReplayText() {
 
 // startRace
 function startRace() {
-  if (chickens.length < 8) {
-    alert("Add 8 chickens to start the race.");
+  if (chickens.length < 5) {
+    alert("Add 5 chickens to start the race.");
     return;
   }
 
@@ -612,8 +612,8 @@ function randomSelectChickens() {
   let shuffledChickens = [...availableChickens];
   shuffledChickens.sort(() => Math.random() - 0.5);
   
-  // Select the first 8 chickens from the shuffled array
-  for (let i = 0; i < 8; i++) {
+  // Select the first 5 chickens from the shuffled array
+  for (let i = 0; i < 5; i++) {
     const chicken = shuffledChickens[i];
     toggleChicken(chicken.id);
   }
