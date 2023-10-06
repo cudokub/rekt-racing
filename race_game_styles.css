@@ -20,6 +20,8 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  border: 4px solid black;
+  box-sizing: border-box;
 }
 
 /* Popup Result */
@@ -31,7 +33,6 @@ body {
   text-align: center;
   justify-content: center;
   align-items: center;
-  border: 4px solid black;
   box-sizing: border-box;
 }
 .result-item  {
@@ -94,7 +95,7 @@ body {
 }
 #availableChickens {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(124px, 1fr)); 
+  grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); 
   gap: 16px;
 }
 @media (max-width: 600px) {
@@ -159,12 +160,12 @@ body {
   font-size: 11px;
   border-radius: 12px;
   text-align: center;
-  padding-bottom: 8px;
+  padding: 16px;
 }
 .chicken-button img {
-  width: 88px;
-  height: 88px;
-  padding: 16px;
+  width: 100%;
+  height: auto;
+  margin-bottom: 16px;
 }
 .chicken-username, .chicken-name {
   margin-bottom: 8px;
@@ -182,7 +183,7 @@ body {
   opacity: 1; /* Show the button on hover */
 }
 .in-race {
-  background-color: #006A2B;
+  background-color: green;
 }
   
 
