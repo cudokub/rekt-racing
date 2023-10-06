@@ -242,7 +242,6 @@ th, td { /* เนื้อหาในตาราง */
   padding: 8px;
   background-color: #121212;
   font-size: 11px;
-  gap: 16px;
 }
 
 .race-result-username, /* ตัวอักษรที่อยู่ข้างรูป */

@@ -238,8 +238,6 @@ function prepareNextRace() {
   startRaceButton.classList.remove("disabled");
   startRaceButton.disabled = false;
   drawTrackLines();
-  cheeringSound.pause();
-  cheeringSound.currentTime = 0; // Reset the sound to the start
 
   const randomSelectButton = document.getElementById("randomSelectButton");
   randomSelectButton.disabled = false;
@@ -449,7 +447,6 @@ function startReplay() {
       replayLoop();
     }
   }
-  cheeringSound.play();
   replayLoop();
 }
 
