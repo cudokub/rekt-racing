@@ -269,7 +269,7 @@ function drawTrackLines() {
   // Draw start line
   if (!raceStarted) {
     ctx.strokeStyle = "#000000";
-    ctx.lineWidth = 6;
+    ctx.lineWidth = 8;
     ctx.moveTo(startLine, 0);
     ctx.lineTo(startLine, canvas.height);
     ctx.stroke();
@@ -290,7 +290,7 @@ function drawTrackLines() {
 
   // Border of canvas
   ctx.strokeStyle = "#000000";  // Border color
-  ctx.lineWidth = 4;  // Border width
+  ctx.lineWidth = 8;  // Border width
   ctx.strokeRect(2, 2, canvas.width - 4, canvas.height - 4);  // Draw border inside
   ctx.beginPath();
 
