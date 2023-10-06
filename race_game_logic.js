@@ -91,7 +91,7 @@ function toggleChicken(id) {
 
 
       ctx.drawImage(newChicken.imageNoBg, newChicken.x, adjustedY, width, height);
-      ctx.font = "12px 'Press Start 2P'";
+      ctx.font = "16px 'Press Start 2P'";
       ctx.textAlign = "right";
       ctx.fillStyle = '#D2D2D2';
       const middleOfTrack = (newChicken.y + imageSize / 2);
@@ -146,8 +146,6 @@ function saveRaceData() {
   })));
   displayRaceHistory();
   updateLeaderboardDisplay();
-  cheeringSound.pause();
-  cheeringSound.currentTime = 0;
   populateRaceResults(sortedChickens);
   document.querySelector('.race-results-content').style.display = 'flex';
 
@@ -247,6 +245,9 @@ function prepareNextRace() {
   resetRaceButton.classList.remove("disabled");
   resetRaceButton.disabled = false;
 
+  cheeringSound.pause();
+  cheeringSound.currentTime = 0;
+
   updateRacePopupText(5);
 }
 
@@ -326,7 +327,7 @@ function gameLoop() {
 
     for (const chicken of chickens) {
       if (!chicken.finished) {
-        ctx.font = "12px 'Press Start 2P'";
+        ctx.font = "16px 'Press Start 2P'";
         ctx.textAlign = "right";
         ctx.fillStyle = 'grey';
         const middleOfTrack = (chicken.y + imageSize / 2);
@@ -335,7 +336,7 @@ function gameLoop() {
         
         // Dynamic speed adjustment logic starts here
         if (globalTime % 10 === 0) {
-          chicken.speed += (Math.random() * 5 - 2) * 0.4;  // Multiply by 0.4 to slow down
+          chicken.speed += (Math.random() * 7 - 2) * 0.4;  // Multiply by 0.4 to slow down
           chicken.speed = Math.max(0.8, Math.min(2, chicken.speed));  // Adjust the range to be slower
         }
 
@@ -417,7 +418,7 @@ function startReplay() {
 
       for (const chicken of frameData) {
         if (!chicken.finished) {  // Check if the chicken has finished
-          ctx.font = "12px 'Press Start 2P'";
+          ctx.font = "16px 'Press Start 2P'";
           ctx.textAlign = "right";
           ctx.fillStyle = 'grey';
           const middleOfTrack = (chicken.y + imageSize / 2);
@@ -460,7 +461,7 @@ function drawReplayText() {
   ctx.fill();
 
   // Draw "Replay" text
-  ctx.font = "14px 'Press Start 2P'";
+  ctx.font = "16px 'Press Start 2P'";
   ctx.fillStyle = 'white';
   ctx.textAlign = 'left';
   ctx.fillText('Replay', 50, 35);
