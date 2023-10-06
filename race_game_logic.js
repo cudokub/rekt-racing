@@ -259,7 +259,7 @@ function drawTrackLines() {
     // Line in between
     ctx.strokeStyle = "#F19E34";
     for (let i = 1; i < 6; i++) {
-      ctx.lineWidth = 16;
+      ctx.lineWidth = 24;
       ctx.moveTo(0, i * trackHeight);
       ctx.lineTo(1480, i * trackHeight);
       ctx.stroke();
