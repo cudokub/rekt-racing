@@ -13,7 +13,7 @@ let cheeringSound = new Audio('https://rektgang.mypinata.cloud/ipfs/QmVPzhKmpADg
 cheeringSound.loop = true;
 let beepSound = new Audio('https://rektgang.mypinata.cloud/ipfs/Qmbf8xqZr3PVg9eCKhfCEjPjFHEcYt1rDHp8haLo5KLvVG?_gl=1*tsafwh*_ga*MTQ2ODA0NTgxNS4xNjUzODgyMDYy*_ga_5RMPXG14TE*MTY5NjQyMTg5MC4yNS4xLjE2OTY0MjE4OTguNTIuMC4w');
 const startLine = 100;
-const finishLine = 1380;
+const finishLine = 1340;
 const imageSize = 56;
 const trackHeight = 70;
     
@@ -248,6 +248,8 @@ function prepareNextRace() {
   const resetRaceButton = document.getElementById("resetRace");
   resetRaceButton.classList.remove("disabled");
   resetRaceButton.disabled = false;
+
+  updateRacePopupText(5);
 }
 
 // drawTrackLines
@@ -260,7 +262,7 @@ function drawTrackLines() {
     for (let i = 1; i < 9; i++) {
       ctx.lineWidth = 16;
       ctx.moveTo(0, i * trackHeight);
-      ctx.lineTo(1920, i * trackHeight);
+      ctx.lineTo(1480, i * trackHeight);
       ctx.stroke();
       ctx.beginPath();
     }
@@ -297,7 +299,7 @@ function drawTrackLines() {
 
 //drawFlag
 function drawFlag() {
-  const flagStart = 1380;
+  const flagStart = 1340;
   const flagEnd = 1480;
   const flagWidth = flagEnd - flagStart;
   const stripeHeight = canvas.height / 8; // 8 stripes for 8 chickens
@@ -475,6 +477,8 @@ function startRace() {
     alert("Add 8 chickens to start the race.");
     return;
   }
+
+  updateRacePopupText(2);
   
   const randomSelectButton = document.getElementById("randomSelectButton");
   randomSelectButton.disabled = true;
@@ -507,7 +511,7 @@ function startRace() {
     countdown--;
     if (countdown < 0) {
       clearInterval(countdownInterval);
-      
+      updateRacePopupText(3);
       // Clear the last countdown number
       ctx.clearRect(canvas.width / 2 - 50, canvas.height / 2 - 50, 100, 100);
       
@@ -517,7 +521,6 @@ function startRace() {
 
     }
   }, 1000);
-
 } 
 
 // calculateChickenRankings
@@ -625,6 +628,7 @@ window.onload = function() {
       ctx = canvas.getContext("2d");
       drawTrackLines();
       gameLoop();
+      updateRacePopupText(1);
       
       // Preload chickens
       const preloadChickens = [
@@ -701,4 +705,30 @@ function populateRaceResults(sortedChickens) {
   document.querySelector('.close-button').addEventListener('click', function() {
     document.querySelector('.race-results-content').style.display = 'none';
   });
+}
+
+function updateRacePopupText(stage) {
+  let raceResultPopups = document.getElementsByClassName("raceResultPopup");
+  let text = "";
+
+  switch(stage) {
+    case 1:
+      text = "Welcome to the race! Choose your 'Chickens' and click 'Start Race' to begin.";
+      break;
+    case 2:
+      text = "Countdown started. Get ready!";
+      break;
+    case 3:
+      text = "Race started! GO! GO!";
+      break;
+    case 5:
+      text = "Welcome back! Choose your 'Chickens' and click 'Start Race' to begin a new race.";
+      break;
+    default:
+      text = "";
+  }
+
+  for(let i = 0; i < raceResultPopups.length; i++) {
+    raceResultPopups[i].innerHTML = text;
+  }
 }
