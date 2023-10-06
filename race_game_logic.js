@@ -12,9 +12,9 @@ let stopReplay = false;
 let cheeringSound = new Audio('https://rektgang.mypinata.cloud/ipfs/QmSiQgh4z7s7kQS4xXirpzk3vpYqRhPCegQMzobzWFQocA?_gl=1*nnp5au*_ga*MTQ2ODA0NTgxNS4xNjUzODgyMDYy*_ga_5RMPXG14TE*MTY5NjYwNzY1MC4yNi4xLjE2OTY2MDg1MDcuNDcuMC4w');
 cheeringSound.loop = true;
 let beepSound = new Audio('https://rektgang.mypinata.cloud/ipfs/Qmbf8xqZr3PVg9eCKhfCEjPjFHEcYt1rDHp8haLo5KLvVG?_gl=1*tsafwh*_ga*MTQ2ODA0NTgxNS4xNjUzODgyMDYy*_ga_5RMPXG14TE*MTY5NjQyMTg5MC4yNS4xLjE2OTY0MjE4OTguNTIuMC4w');
-const startLine = 124;
+const startLine = 112;
 const finishLine = 1340;
-const imageSize = 80;
+const imageSize = 64;
 const trackHeight = 112;
     
 // Chicken Class
