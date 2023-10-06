@@ -713,16 +713,16 @@ function updateRacePopupText(stage) {
 
   switch(stage) {
     case 1:
-      text = "Welcome to the race! Choose your 'Chickens' and click 'Start Race' to begin.";
+      text = "<span style='font-size:12px;'>Welcome to the race! Choose your 'Chickens' and click 'Start Race' to begin.</span>";
       break;
     case 2:
-      text = "Countdown started. Get ready!";
+      text = "<span style='font-size:12px;'>Countdown started. Get ready!</span>";
       break;
     case 3:
-      text = "Race started! GO! GO!";
+      text = "<span style='font-size:12px;'>Race started! GO! GO!</span>";
       break;
     case 5:
-      text = "Welcome back! Choose your 'Chickens' and click 'Start Race' to begin a new race.";
+      text = "<span style='font-size:12px;'>Welcome back! Choose your 'Chickens' and click 'Start Race' to begin a new race.</span>";
       break;
     default:
       text = "";
