@@ -10,76 +10,122 @@
 </head>
 
 <body>
+  <div style="max-width: 1480px;">
 
-  <div class="nav">
-    <img id="logo" src="https://rektgang.mypinata.cloud/ipfs/QmPkzFHHdKSGh37o5RKA2xCUPFQRodnwG5NjkDtwMsmMn6?_gl=1*1m0l96n*_ga*MTQ2ODA0NTgxNS4xNjUzODgyMDYy*_ga_5RMPXG14TE*MTY5NjA1NDMyNy4xOS4xLjE2OTYwNTQzMzAuNTcuMC4w">
-  </div>
-  
-  <div class="container">
-    <div class="raceResultPopup" class="popup"></div>
-      <canvas id="gameCanvas" width="1480" height="646"></canvas>
+    <!--NAV-->
+    <div class="nav">
+      <img id="logo" src="https://rektgang.mypinata.cloud/ipfs/QmPkzFHHdKSGh37o5RKA2xCUPFQRodnwG5NjkDtwMsmMn6?_gl=1*1m0l96n*_ga*MTQ2ODA0NTgxNS4xNjUzODgyMDYy*_ga_5RMPXG14TE*MTY5NjA1NDMyNy4xOS4xLjE2OTYwNTQzMzAuNTcuMC4w">
+    </div>
+
+    <!--CANVAS-->
+    <div class="container">
       <div class="raceResultPopup" class="popup"></div>
-  </div>
+        <canvas id="gameCanvas" width="1480" height="572"></canvas>
+        <div class="raceResultPopup" class="popup"></div>
+    </div>
 
-  <div class="controls-container">
-          <div id="raceControls" class="race-controls">
-            <h5>Race Controls</h5>
-            <button id="startRace" class="race-button" onclick="startRace()">Start Race</button>
-            <button id="nextRace" class="race-button" onclick="prepareNextRace()" style="display:none;">Next Race</button>
-            <button id="randomSelectButton" class="random-button" button onclick="randomSelectChickens()">Randomly Select Chickens</button>
-            <button id="resetRace" class="reset-button" onclick="resetRace()">Reset Race</button>
+    <!--CONTENT-->
+    <div style="display: flex;flex-direction: column;max-width: -webkit-fill-available;"> 
+
+        <!--RACE CONTROL+AVAILABLE CHICKENS-->
+        <div class="controls-container">
+
+                <div id="raceControls" class="race-controls">
+                  <h5>Race Controls</h5>
+                  <div style="display: flex;flex-wrap: nowrap; gap: 16px;width: 100%; height: fit-content;">
+                  <button id="startRace" class="race-button" onclick="startRace()">Start Race</button>
+                  <button id="nextRace" class="race-button" onclick="prepareNextRace()" style="display:none;">Next Race</button>
+                  <button id="randomSelectButton" class="random-button" button onclick="randomSelectChickens()">Randomly Select Chickens</button>
+                  <button id="resetRace" class="reset-button" onclick="resetRace()">Reset Race</button>
+                  </div>
+                </div>
+                
+                <div id="availablechickensdiv">
+                <h5>Available Chickens</h5>
+                <div id="availableChickens"></div>
+                </div>
+        </div>
+        
+        <!--LEADER BOARD & RACE RESULTS-->  
+        <div class="tables-container">
+
+                <div id="leaderboard-section">
+                  <div id="chicken-leaderboard">
+                    <h5>Chicken Leaderboard</h5>
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Rank</th>
+                          <th>Image</th>
+                          <th>Name</th>
+                          <th>Points</th>
+                        </tr>
+                      </thead>
+                      <tbody id="chickenLeaderboardBody">
+                        <!-- Chicken Rankings will be inserted here -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="table-container">
+                  <div>
+                      <h5>Race Results</h5> <!-- Add this line -->
+                      <table id="raceResultsTable">
+                          <thead>
+                            <tr>
+                              <th>Race #</th>
+                              <th>1st</th>
+                              <th>2nd</th>
+                              <th>3rd</th>
+                              <th>4th</th>
+                              <th>5th</th>
+                              <th>6th</th>
+                              <th>7th</th>
+                              <th>8th</th>
+                            </tr>
+                          </thead>
+                          <tbody id="raceResultsBody">
+                            <!-- Race results will be inserted here -->
+                          </tbody>
+                      </table>
+                  </div>
+                </div>
+
+        </div>
+
+    </div>
+
+    <!--POP UP END RESULT-->
+    <div class="race-results-content" style="display: none;">
+      
+      <div class="race-results">
+        <h3>Last Race Results</h3>
+
+          <div class="podium">
+              <div>
+                  <div class="third-place"></div>
+                  <div class="third-place-text">3rd</div>
+              </div>
+              <div>
+                  <div class="first-place"></div>
+                  <div class="first-place-text">1st</div>
+              </div>
+              <div>
+                  <div class="second-place"></div>
+                  <div class="second-place-text">2nd</div>
+              </div>
           </div>
           
-          <div id="availablechickensdiv">
-          <h5>Available Chickens</h5>
-          <div id="availableChickens"></div>
+          <div class="other-positions">
+            <!-- ... content for 4th to 8th places ... -->
           </div>
-  </div>
-    
-  <div class="tables-container">
-    <div id="leaderboard-section">
-      <div id="chicken-leaderboard">
-        <h5>Chicken Leaderboard</h5>
-        <table>
-          <thead>
-            <tr>
-              <th>Rank</th>
-              <th>Name</th>
-              <th>Points</th>
-            </tr>
-          </thead>
-          <tbody id="chickenLeaderboardBody">
-            <!-- Chicken Rankings will be inserted here -->
-          </tbody>
-        </table>
-      </div>
-</div>
-    <div class="table-container">
-      <div>
-          <h5>Race Results</h5> <!-- Add this line -->
-          <table id="raceResultsTable">
-              <thead>
-                <tr>
-                  <th>Race #</th>
-                  <th>1st</th>
-                  <th>2nd</th>
-                  <th>3rd</th>
-                  <th>4th</th>
-                  <th>5th</th>
-                  <th>6th</th>
-                  <th>7th</th>
-                  <th>8th</th>
-                </tr>
-              </thead>
-              <tbody id="raceResultsBody">
-                <!-- Race results will be inserted here -->
-              </tbody>
-          </table>
+      
+          <button class="close-button">Close</button>
       </div>
     </div>
 
   </div>
   <script src="race_game_logic.js"></script>
-
 </body>
 </html>

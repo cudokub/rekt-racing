@@ -15,7 +15,7 @@ let beepSound = new Audio('https://rektgang.mypinata.cloud/ipfs/Qmbf8xqZr3PVg9eC
 const startLine = 100;
 const finishLine = 1380;
 const imageSize = 56;
-const trackHeight = 80;
+const trackHeight = 70;
     
 // Chicken Class
 class Chicken {
@@ -24,7 +24,7 @@ class Chicken {
     this.name = name;
     this.x = x + 25;
     this.y = (trackIndex + 1) * trackHeight - imageSize;
-    this.speed = Math.random() * 3 + 2;
+    this.speed = (Math.random() * 3 + 2) * 0.50;
     this.image = new Image();
     this.image.src = imageUrl;
     this.dirty = true;
@@ -52,7 +52,12 @@ function createChickenButton(id, username, name, imageUrl) {
   chickenButton.id = `chicken-${id}`;
   chickenButton.classList.add("chicken-button");
 
-  chickenButton.innerHTML = `<img src="${imageUrl}" alt="${name}"><br>${username} ${name}<br><button onclick="deleteChicken(${id})">x</button>`;
+  chickenButton.innerHTML = `
+  <img src="${imageUrl}" alt="${name}">
+  <div class="chicken-username">${username}</div>
+  <div class="chicken-name">${name}</div>
+  `;
+
   chickenButton.addEventListener('click', function(event) {
     if (event.target.tagName !== 'BUTTON') {
       toggleChicken(id);
@@ -86,10 +91,10 @@ function toggleChicken(id) {
 
 
       ctx.drawImage(newChicken.imageNoBg, newChicken.x, adjustedY, width, height);
-      ctx.font = "20px 'Press Start 2P'";
+      ctx.font = "12px 'Press Start 2P'";
       ctx.textAlign = "right";
       ctx.fillStyle = '#D2D2D2';
-      const middleOfTrack = newChicken.y + 7;
+      const middleOfTrack = (newChicken.y + imageSize / 2);
       const rightPadding = canvas.width - 112;
       ctx.fillText(`${chicken.username} ${chicken.name}`, rightPadding, middleOfTrack);
     }
@@ -108,7 +113,6 @@ function toggleChicken(id) {
 function saveRaceData() {
   const sortedChickens = [...chickens].sort((a, b) => a.finishTime - b.finishTime);
 
-  // Show the results
   let raceResultPopups = document.getElementsByClassName("raceResultPopup");
   for(let i = 0; i < raceResultPopups.length; i++) {
     raceResultPopups[i].style.display = "flex";
@@ -117,7 +121,6 @@ function saveRaceData() {
   document.getElementById("startRace").style.display = "none";
   document.getElementById("nextRace").style.display = "block";
 
-  // Update the results
   let resultsHTML = "";
   sortedChickens.forEach((chicken, index) => {
     let placeSuffix = "th";
@@ -142,48 +145,56 @@ function saveRaceData() {
     imageUrl: chicken.image.src
   })));
   displayRaceHistory();
-  
-  // Automatically update the leaderboards
   updateLeaderboardDisplay();
-  // Stop the cheering sound when the race ends
   cheeringSound.pause();
-  cheeringSound.currentTime = 0; // Reset the sound to the start
+  cheeringSound.currentTime = 0;
+  populateRaceResults(sortedChickens);
+  document.querySelector('.race-results-content').style.display = 'flex';
+
 }
         
 // displayRaceHistory
 function displayRaceHistory() {
   const tableBody = document.getElementById("raceResultsBody");
   tableBody.innerHTML = "";
+
   raceHistory.forEach((race, index) => {
     const row = document.createElement("tr");
     const raceNumberCell = document.createElement("td");
     raceNumberCell.textContent = `Race ${index + 1}`;
     row.appendChild(raceNumberCell);
-    race.forEach(chicken => {
-      const cell = document.createElement("td");
-      
-      const img = document.createElement('img');
-      img.src = chicken.imageUrl;
-      img.className = "race-result-img";
-      
-      const inlineContainer = document.createElement('div');
-      inlineContainer.className = 'inline-container';
 
+    race.forEach(chicken => {
+      // Create a new cell for the chicken
+      const chickenCell = document.createElement("td");
+
+      // Create a div for the image
+      const imgDiv = document.createElement("div");
+      const img = document.createElement("img");
+      img.src = chicken.imageUrl; // Set the image source to the chicken's image URL
+      img.style.width = '40px'; // Set the size to 24px
+      img.style.height = '40px'; // Set the height to 24px
+      img.style.display = 'block'; // Set display to block
+      img.style.margin = 'auto'; // Center the image
+      imgDiv.appendChild(img);
+
+      // Create a div for the username
       const usernameDiv = document.createElement("div");
-      usernameDiv.className = "race-result-username inline-item";
       usernameDiv.textContent = chicken.username;
 
+      // Create a div for the name
       const nameDiv = document.createElement("div");
-      nameDiv.className = "race-result-name inline-item";
       nameDiv.textContent = chicken.name;
-      
-      inlineContainer.appendChild(img);
-      inlineContainer.appendChild(usernameDiv);
-      inlineContainer.appendChild(nameDiv);
 
-      cell.appendChild(inlineContainer);
-      row.appendChild(cell);
+      // Append the divs to the cell
+      chickenCell.appendChild(imgDiv);
+      chickenCell.appendChild(usernameDiv);
+      chickenCell.appendChild(nameDiv);
+
+      // Append the cell to the row
+      row.appendChild(chickenCell);
     });
+
     tableBody.appendChild(row);
   });
 }
@@ -239,47 +250,49 @@ function prepareNextRace() {
   resetRaceButton.disabled = false;
 }
 
-
-
-
-
-
 // drawTrackLines
 function drawTrackLines() {
   ctx.fillStyle = "#55372F";  // Background
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillRect(2, 2, canvas.width - 4, canvas.height - 4);  // Draw background inside the border
 
+    // Line in between
+    ctx.strokeStyle = "#F19E34";
+    for (let i = 1; i < 9; i++) {
+      ctx.lineWidth = 16;
+      ctx.moveTo(0, i * trackHeight);
+      ctx.lineTo(1920, i * trackHeight);
+      ctx.stroke();
+      ctx.beginPath();
+    }
+    
   // Draw start line
   if (!raceStarted) {
     ctx.strokeStyle = "#000000";
-    ctx.lineWidth = 8;
-    ctx.beginPath();
+    ctx.lineWidth = 4;
     ctx.moveTo(startLine, 0);
     ctx.lineTo(startLine, canvas.height);
     ctx.stroke();
+    ctx.beginPath();
   }
 
   // Draw finish line
   ctx.strokeStyle = "#000000";
-  ctx.lineWidth = 1;
+  ctx.lineWidth = 4;
   ctx.beginPath();
   ctx.moveTo(finishLine, 0);
   ctx.lineTo(finishLine, canvas.height);
   ctx.stroke();
   ctx.beginPath();  // Close path
 
-  // Line in between
-  ctx.strokeStyle = "#F19E34";
-    for (let i = 1; i < 9; i++) {
-      ctx.lineWidth = 16;
-      ctx.moveTo(0, i * trackHeight);
-      ctx.lineTo(1920, i * trackHeight);
-      ctx.stroke();
-      ctx.beginPath();  // Close path
-    }
-    drawFlag();
-  }
 
+  drawFlag();
+
+  // Border of canvas
+  ctx.strokeStyle = "#000000";  // Border color
+  ctx.lineWidth = 4;  // Border width
+  ctx.strokeRect(2, 2, canvas.width - 4, canvas.height - 4);  // Draw border inside
+
+  }
 
 //drawFlag
 function drawFlag() {
@@ -312,30 +325,31 @@ function gameLoop() {
 
     for (const chicken of chickens) {
       if (!chicken.finished) {
-        ctx.font = "20px 'Press Start 2P'";
+        ctx.font = "12px 'Press Start 2P'";
         ctx.textAlign = "right";
         ctx.fillStyle = 'grey';
-        const middleOfTrack = chicken.y;
+        const middleOfTrack = (chicken.y + imageSize / 2);
         const rightPadding = canvas.width - 112;
         ctx.fillText(`${chicken.username} ${chicken.name}`, rightPadding, middleOfTrack);
         
         // Dynamic speed adjustment logic starts here
         if (globalTime % 10 === 0) {
-          chicken.speed += Math.random() * 2 - 1;
+          chicken.speed += (Math.random() * 2 - 1);
           chicken.speed = Math.max(2, Math.min(5, chicken.speed));
         }
+
         if (globalTime % 3.5 === 0) {  
           chicken.shouldJump = !chicken.shouldJump;
           chicken.jumpHeight = chicken.shouldJump ? Math.random() * 2 - 5 : 0;  
         }
+
         chicken.x += chicken.speed; 
 
         const scaleFactor = imageSize / Math.max(chicken.imageNoBg.width, chicken.imageNoBg.height);
-        // Calculate the width and height of the image on the canvas
         const width = chicken.imageNoBg.width * scaleFactor;
         const height = chicken.imageNoBg.height * scaleFactor;
-        // Adjust the y-coordinate based on the height of the image
         const adjustedY = chicken.y + imageSize - height;
+
         // Drawing logic
         if (chicken.imageNoBgLoaded) {
           ctx.drawImage(chicken.imageNoBg, chicken.x, adjustedY + chicken.jumpHeight, width, height);
@@ -382,8 +396,9 @@ function startReplay() {
   let frameRate = 30; // 30 frames per second
   let slowMoFactor = 2; // 2x slower
 
-  let startIndex = 0; // Start from the beginning of the race
   let endIndex = replayData.length;
+  let startIndex = endIndex - (9 * frameRate); // Start from 18 seconds before the end of the race
+  startIndex = Math.max(0, startIndex); // Ensure startIndex is not negative
 
   let replayIndex = startIndex;
 
@@ -401,10 +416,10 @@ function startReplay() {
 
       for (const chicken of frameData) {
         if (!chicken.finished) {  // Check if the chicken has finished
-          ctx.font = "20px 'Press Start 2P'";
+          ctx.font = "12px 'Press Start 2P'";
           ctx.textAlign = "right";
           ctx.fillStyle = 'grey';
-          const middleOfTrack = chicken.y;
+          const middleOfTrack = (chicken.y + imageSize / 2);
           const rightPadding = canvas.width - 112;
           ctx.fillText(`${chicken.username} ${chicken.name}`, rightPadding, middleOfTrack);
                 // Calculate the scale factor
@@ -445,10 +460,12 @@ function drawReplayText() {
   ctx.fill();
 
   // Draw "Replay" text
-  ctx.font = "20px 'Press Start 2P'";
+  ctx.font = "14px 'Press Start 2P'";
   ctx.fillStyle = 'white';
   ctx.textAlign = 'left';
   ctx.fillText('Replay', 50, 35);
+  ctx.beginPath();
+
 }
 
 // startRace
@@ -476,7 +493,7 @@ function startRace() {
     ctx.clearRect(canvas.width / 2 - 50, canvas.height / 2 - 50, 100, 100);
     
     // Set text properties
-    ctx.font = "20px 'Press Start 2P'";
+    ctx.font = "24px 'Press Start 2P'";
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillStyle = '#FF0000';  // Red color for countdown numbers
@@ -500,14 +517,7 @@ function startRace() {
     }
   }, 1000);
 
-}
-
-// deleteChicken
-function deleteChicken(id) {
-  const chickenDiv = document.getElementById(`chicken-${id}`);
-  chickenDiv.remove();
-  availableChickens = availableChickens.filter(chicken => chicken.id !== id);
-}    
+} 
 
 // calculateChickenRankings
 function calculateChickenRankings() {
@@ -537,7 +547,34 @@ function updateLeaderboardDisplay() {
   sortedChickens.forEach((chickenKey, index) => {
     const [username, chickenName] = chickenKey.split('-');
     const row = document.createElement("tr");
-    row.innerHTML = `<td>${index + 1}</td><td>${username} ${chickenName}</td><td>${chickenPoints[chickenKey]}</td>`;
+
+    // Create a td element for the rank
+    const rankCell = document.createElement("td");
+    rankCell.textContent = index + 1;
+
+    // Create an img element for the chicken image
+    const imgCell = document.createElement("td");
+    const img = document.createElement("img");
+    img.src = availableChickens.find(chicken => chicken.name === chickenName && chicken.username === username).imageUrl;
+    img.style.width = '40px'; // Set the size to 32px
+    img.style.display = 'block'; // Set display to block
+    img.style.margin = 'auto'; // Center the image
+    imgCell.appendChild(img);
+
+    // Create a td element for the name
+    const nameCell = document.createElement("td");
+    nameCell.textContent = `${username} ${chickenName}`;
+
+    // Create a td element for the points
+    const pointsCell = document.createElement("td");
+    pointsCell.textContent = chickenPoints[chickenKey];
+
+    // Append the cells to the row in the desired order
+    row.appendChild(rankCell);
+    row.appendChild(imgCell);
+    row.appendChild(nameCell);
+    row.appendChild(pointsCell);
+
     chickenTableBody.appendChild(row);
   });
 }
@@ -598,7 +635,6 @@ window.onload = function() {
         {username: 'Winny', name: '#7', imageUrl: 'https://ipfs-gw.stargaze-apis.com/ipfs/QmeR2zrH6kwKhXMZhTD5gsHMk13oJoSfsCv7GCiP9YRjXk/6.png', imageNoBgUrl: 'https://rektgang.mypinata.cloud/ipfs/QmapVvcJhRspLHovj5Ji2UJ1KxFaAMZxwRkwErkUT6YFgS/NFT_6.png'},
         {username: 'Merlioz', name: '#15', imageUrl: 'https://ipfs-gw.stargaze-apis.com/ipfs/QmeR2zrH6kwKhXMZhTD5gsHMk13oJoSfsCv7GCiP9YRjXk/7.png', imageNoBgUrl: 'https://rektgang.mypinata.cloud/ipfs/QmapVvcJhRspLHovj5Ji2UJ1KxFaAMZxwRkwErkUT6YFgS/NFT_7.png'},
         {username: 'Argos', name: '#37', imageUrl: 'https://ipfs-gw.stargaze-apis.com/ipfs/QmeR2zrH6kwKhXMZhTD5gsHMk13oJoSfsCv7GCiP9YRjXk/8.png', imageNoBgUrl: 'https://rektgang.mypinata.cloud/ipfs/QmapVvcJhRspLHovj5Ji2UJ1KxFaAMZxwRkwErkUT6YFgS/NFT_8.png'},
-
       ];
     
       // Preload chickens into availableChickens and create buttons for them
@@ -614,14 +650,6 @@ window.onload = function() {
         createChickenButton(i, chicken.username, chicken.name, chicken.imageUrl);
       }
 }
-
-
-
-
-
-
-
-
 
 // resetRace
 function resetRace() {
@@ -642,3 +670,34 @@ function resetRace() {
   });
 }
 
+
+
+// populateRaceResults
+function populateRaceResults(sortedChickens) {
+  // Get the podium and other positions elements
+  const firstPlace = document.querySelector('.first-place');
+  const secondPlace = document.querySelector('.second-place');
+  const thirdPlace = document.querySelector('.third-place');
+  const otherPositions = document.querySelector('.other-positions');
+
+  // Clear previous results
+  firstPlace.innerHTML = '';
+  secondPlace.innerHTML = '';
+  thirdPlace.innerHTML = '';
+  otherPositions.innerHTML = '';
+
+  // Populate the podium
+  firstPlace.innerHTML = `<span>${sortedChickens[0].username}</span><span>${sortedChickens[0].name}</span><img src="${sortedChickens[0].imageNoBg.src}" class="result-img">`;
+  secondPlace.innerHTML = `<span>${sortedChickens[1].username}</span><span>${sortedChickens[1].name}</span><img src="${sortedChickens[1].imageNoBg.src}" class="result-img">`;
+  thirdPlace.innerHTML = `<span>${sortedChickens[2].username}</span><span>${sortedChickens[2].name}</span><img src="${sortedChickens[2].imageNoBg.src}" class="result-img">`;
+
+  // Populate the other positions
+  for (let i = 3; i < sortedChickens.length; i++) {
+    const positionDiv = document.createElement('div');
+    positionDiv.innerHTML = `<span>${i + 1}th ${sortedChickens[i].username} ${sortedChickens[i].name}</span>`;
+    otherPositions.appendChild(positionDiv);
+  }
+  document.querySelector('.close-button').addEventListener('click', function() {
+    document.querySelector('.race-results-content').style.display = 'none';
+  });
+}
