@@ -12,6 +12,13 @@ let stopReplay = false;
 let cheeringSound = new Audio('https://rektgang.mypinata.cloud/ipfs/QmSiQgh4z7s7kQS4xXirpzk3vpYqRhPCegQMzobzWFQocA?_gl=1*nnp5au*_ga*MTQ2ODA0NTgxNS4xNjUzODgyMDYy*_ga_5RMPXG14TE*MTY5NjYwNzY1MC4yNi4xLjE2OTY2MDg1MDcuNDcuMC4w');
 cheeringSound.loop = true;
 let beepSound = new Audio('https://rektgang.mypinata.cloud/ipfs/Qmbf8xqZr3PVg9eCKhfCEjPjFHEcYt1rDHp8haLo5KLvVG?_gl=1*tsafwh*_ga*MTQ2ODA0NTgxNS4xNjUzODgyMDYy*_ga_5RMPXG14TE*MTY5NjQyMTg5MC4yNS4xLjE2OTY0MjE4OTguNTIuMC4w');
+let currentRaceNumber = 1;
+
+let chickenData;
+fetch('https://rektgang.mypinata.cloud/ipfs/QmUhPcHKZkZiD8RjiQ32z8HEwhk9QSKpsLVpB592eRSB8m?_gl=1*1lekii9*_ga*MTQ2ODA0NTgxNS4xNjUzODgyMDYy*_ga_5RMPXG14TE*MTY5NjY2NjE4Ni4yNy4xLjE2OTY2NjYyMTIuMzQuMC4w')
+  .then(response => response.json())
+  .then(data => chickenData = data);
+
 const startLine = 112;
 const finishLine = 1340;
 const imageSize = 64;
@@ -48,6 +55,7 @@ class Chicken {
 
 // createChickenButton
 function createChickenButton(id, username, name, imageUrl) {
+  console.log(`Creating button for chicken: ${name}, imageUrl: ${imageUrl}`); // Debugging line
   const chickenButton = document.createElement('div');
   chickenButton.id = `chicken-${id}`;
   chickenButton.classList.add("chicken-button");
@@ -56,6 +64,7 @@ function createChickenButton(id, username, name, imageUrl) {
   <img src="${imageUrl}" alt="${name}">
   <div class="chicken-username">${username}</div>
   <div class="chicken-name">${name}</div>
+  <div class="trash-icon">&#128465;</div>
   `;
 
   chickenButton.addEventListener('click', function(event) {
@@ -64,6 +73,29 @@ function createChickenButton(id, username, name, imageUrl) {
     }
   });
   document.getElementById("availableChickens").appendChild(chickenButton);
+
+    // Create the trash icon
+    const trashIcon = document.createElement('div');
+    trashIcon.innerHTML = '&#128465;';
+    trashIcon.classList.add('trash-icon');
+  
+    // Add the trash icon to the chicken button
+    chickenButton.appendChild(trashIcon);
+    
+  
+    // Add a click event listener to the trash icon
+    trashIcon.addEventListener('click', function(event) {
+      event.stopPropagation();  // Prevent the chicken button's click event from firing
+      chickenButton.remove();  // Remove the chicken button from the DOM
+  
+      // Remove the chicken from the availableChickens array
+      const index = availableChickens.findIndex(chicken => chicken.id === id);
+      if (index !== -1) {
+        availableChickens.splice(index, 1);
+      }
+    });
+
+    
 }
 
 // toggleChicken
@@ -89,7 +121,6 @@ function toggleChicken(id) {
       const height = newChicken.imageNoBg.height * scaleFactor;
       const adjustedY = newChicken.y + imageSize - height;
 
-
       ctx.drawImage(newChicken.imageNoBg, newChicken.x, adjustedY, width, height);
       ctx.font = "16px 'Press Start 2P'";
       ctx.textAlign = "right";
@@ -98,14 +129,6 @@ function toggleChicken(id) {
       const rightPadding = canvas.width - 112;
       ctx.fillText(`${chicken.username} ${chicken.name}`, rightPadding, middleOfTrack);
     }
-  } else {
-    const removedChicken = chickens[existingIndex];
-    // Clear the chicken drawing
-    ctx.clearRect(removedChicken.x, removedChicken.y, imageSize, imageSize);
-    ctx.fillStyle = '#55372F';  // Replace with your canvas background color
-    ctx.fillRect(removedChicken.x, removedChicken.y, imageSize, imageSize);
-    chickens.splice(existingIndex, 1);
-    document.getElementById(`chicken-${id}`).classList.remove("in-race");
   }
 }    
 
@@ -197,6 +220,39 @@ function displayRaceHistory() {
   });
 }
 
+
+document.addEventListener('DOMContentLoaded', (event) => {
+  document.getElementById('addChickenButton').addEventListener('click', () => {
+    const nameField = document.querySelector('.input-inner-container #name');
+    const usernameField = document.querySelector('.input-inner-container #username');
+    const name = nameField.value;
+    const username = usernameField.value;
+    const chicken = chickenData.find(chicken => chicken.name === name);
+    if (chicken) {
+      const newChicken = {
+        username: username,
+        name: '#' + chicken.name, // Prepend '#' to the name
+        imageUrl: chicken.imageUrl,
+        imageNoBgUrl: chicken.imageNoBgUrl,
+        id: availableChickens.length // New id is the current length of the array
+      };
+      availableChickens.push(newChicken); // Add the new chicken to the array
+      createChickenButton(newChicken.id, newChicken.username, newChicken.name, newChicken.imageUrl);
+      
+      // Reset the input fields
+      nameField.value = '';
+      usernameField.value = '';
+    } else {
+      alert('No chicken found with the number');
+      return
+    }
+  });
+});
+
+
+
+
+
 // updateLeaderboard
 function updateLeaderboard(raceId, sortedChickens) {
   const raceData = {
@@ -244,6 +300,9 @@ function prepareNextRace() {
   const resetRaceButton = document.getElementById("resetRace");
   resetRaceButton.classList.remove("disabled");
   resetRaceButton.disabled = false;
+
+  currentRaceNumber++;
+  document.getElementById("raceNumber").textContent = `Race ${currentRaceNumber}`;
 
   cheeringSound.pause();
   cheeringSound.currentTime = 0;
@@ -526,13 +585,36 @@ function calculateChickenRankings() {
   let chickenPoints = {};
       
   leaderboardData.forEach(race => {
-  race.results.forEach(result => {
-  const chickenKey = `${result.username}-${result.chickenName}`;
-  if (!chickenPoints[chickenKey]) {
-      chickenPoints[chickenKey] = 0;
-  }
-  chickenPoints[chickenKey] += (9 - result.position);
-  });
+    race.results.forEach(result => {
+      const chickenKey = `${result.username}-${result.chickenName}`;
+      if (!chickenPoints[chickenKey]) {
+        chickenPoints[chickenKey] = 0;
+      }
+
+      // Define the points for each position
+      let points;
+      switch(result.position) {
+        case 1:
+          points = 4; // 1st place gets 10 points
+          break;
+        case 2:
+          points = 3; // 2nd place gets 7 points
+          break;
+        case 3:
+          points = 2; // 3rd place gets 5 points
+          break;
+        case 4:
+          points = 1; // 4th place loses 2 points
+          break;
+        case 5:
+          points = 0; // 5th place loses 5 points
+          break;
+        default:
+          points = 0; // Default case, should not be reached
+      }
+
+      chickenPoints[chickenKey] += points;
+    });
   });
     
   const sortedChickens = Object.keys(chickenPoints).sort((a, b) => chickenPoints[b] - chickenPoints[a]);

@@ -1,0 +1,18 @@
+[
+    {
+      "name": "1",
+      "imageUrl": "https://ipfs-gw.stargaze-apis.com/ipfs/QmeR2zrH6kwKhXMZhTD5gsHMk13oJoSfsCv7GCiP9YRjXk/1.png",
+      "imageNoBgUrl": "https://rektgang.mypinata.cloud/ipfs/QmapVvcJhRspLHovj5Ji2UJ1KxFaAMZxwRkwErkUT6YFgS/NFT_1.png"
+    },
+    {
+      "name": "2",
+      "imageUrl": "https://ipfs-gw.stargaze-apis.com/ipfs/QmeR2zrH6kwKhXMZhTD5gsHMk13oJoSfsCv7GCiP9YRjXk/2.png",
+      "imageNoBgUrl": "https://rektgang.mypinata.cloud/ipfs/QmapVvcJhRspLHovj5Ji2UJ1KxFaAMZxwRkwErkUT6YFgS/NFT_2.png"
+    },
+    {
+      "name": "3",
+      "imageUrl": "https://ipfs-gw.stargaze-apis.com/ipfs/QmeR2zrH6kwKhXMZhTD5gsHMk13oJoSfsCv7GCiP9YRjXk/3.png",
+      "imageNoBgUrl": "https://rektgang.mypinata.cloud/ipfs/QmapVvcJhRspLHovj5Ji2UJ1KxFaAMZxwRkwErkUT6YFgS/NFT_3.png"
+    }
+
+  ]

@@ -13,10 +13,15 @@
 
 
     <!--NAV-->
-    <div class="nav">
-      <img id="logo" src="https://rektgang.mypinata.cloud/ipfs/QmPkzFHHdKSGh37o5RKA2xCUPFQRodnwG5NjkDtwMsmMn6?_gl=1*1m0l96n*_ga*MTQ2ODA0NTgxNS4xNjUzODgyMDYy*_ga_5RMPXG14TE*MTY5NjA1NDMyNy4xOS4xLjE2OTYwNTQzMzAuNTcuMC4w">
+    <div class="nav" style="display: flex;max-width: 1440px;flex-direction: column;width: -webkit-fill-available;">
+        <div class="nav-content">
+          <img id="logo" src="https://rektgang.mypinata.cloud/ipfs/QmPkzFHHdKSGh37o5RKA2xCUPFQRodnwG5NjkDtwMsmMn6?_gl=1*1m0l96n*_ga*MTQ2ODA0NTgxNS4xNjUzODgyMDYy*_ga_5RMPXG14TE*MTY5NjA1NDMyNy4xOS4xLjE2OTYwNTQzMzAuNTcuMC4w">
+          <div>
+            <div id="timecode"></div>
+            <div id="raceNumber">Race 1</div>
+          </div>
+        </div>
     </div>
-
     <!--CANVAS-->
     <div class="container">
       <div class="raceResultPopup" class="popup"></div>
@@ -27,7 +32,7 @@
     <!--CONTENT-->
     <div style="display: flex;max-width: 1440px;flex-direction: column;width: -webkit-fill-available;"> 
 
-        <!--RACE CONTROL+AVAILABLE CHICKENS-->
+        <!--RACE CONTROL-->
         <div class="controls-container">
 
                 <div id="raceControls" class="race-controls">
@@ -36,10 +41,26 @@
                   <button id="startRace" class="race-button" onclick="startRace()">Start Race</button>
                   <button id="nextRace" class="race-button" onclick="prepareNextRace()" style="display:none;">Next Race</button>
                   <button id="randomSelectButton" class="random-button" button onclick="randomSelectChickens()">Randomly Select Chickens</button>
-                  <button id="resetRace" class="reset-button" onclick="resetRace()">Reset Race</button>
+                  <button id="resetRace" class="reset-button" onclick="resetRace()">Reset Tracks</button>
                   </div>
                 </div>
-                
+        </div>
+
+        <!--ADD CHICKENS+AVAILABLE CHICKENS-->
+          <div class="controls-container">    
+                <div style="width: fit-content;display: flex;justify-content: center;">
+                  <div class="input-container">
+                    <div class="input-inner-container">
+                        <div class="input-text-label">Chicken Number</div>
+                        <input type="text" class="input-box" id="name" placeholder="...">
+                        <div class="input-text-label">Username</div>
+                        <input type="text" class="input-box" id="username" placeholder="...">
+                      </div>
+                    <div class="input-button-section">
+                        <button id="addChickenButton" class="input-button add-chicken">Add Chicken</button>
+                    </div>
+                  </div>
+                </div>            
                 <div id="availablechickensdiv">
                 <h5>Available Chickens</h5>
                 <div id="availableChickens"></div>
@@ -91,6 +112,10 @@
 
         </div>
 
+        <!--ADD CHICKENS-->
+
+    
+
     </div>
 
     <!--POP UP END RESULT-->
@@ -115,7 +140,7 @@
           </div>
           
           <div class="other-positions">
-            <!-- ... content for 4th to 8th places ... -->
+            <!-- ... content for 4th to 5th places ... -->
           </div>
       
           <button class="close-button">Close</button>
