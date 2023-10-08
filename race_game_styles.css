@@ -487,16 +487,16 @@ th, td { /* เนื้อหาในตาราง */
 }
 
 .input-button {
-  padding: 8px 20px;
+  padding: 12px 20px;
   border-radius: 8px;
   text-align: center;
-  color: #CCCCCC;
+  color: #FFFFFF;
   font-size: 12px;
   font-family: 'Press Start 2P';
   font-weight: 400;
   line-height: 11.60px;
   word-wrap: break-word;
-  box-shadow: (0, 0, 0, 0.20);
+  cursor: pointer;
 }
 
 .add-chicken {
@@ -525,7 +525,6 @@ th, td { /* เนื้อหาในตาราง */
 .trash-icon {
   width: 16px; /* adjust based on actual size of your trash icon */
   height: 16px; 
-  background: url('path_to_trash_icon_image.png') no-repeat center; /* replace with path to your icon */
   display: none;
   position: absolute;
   top: 4px; /* small spacing from the top */
