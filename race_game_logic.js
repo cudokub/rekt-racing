@@ -22,7 +22,7 @@ fetch('https://rektgang.mypinata.cloud/ipfs/QmUhPcHKZkZiD8RjiQ32z8HEwhk9QSKpsLVp
 const startLine = 112;
 const finishLine = 1340;
 const imageSize = 64;
-const trackHeight = 112;
+const trackHeight = 96;
     
 // Chicken Class
 class Chicken {
@@ -394,9 +394,9 @@ function gameLoop() {
         ctx.fillText(`${chicken.username} ${chicken.name}`, rightPadding, middleOfTrack);
         
         // Dynamic speed adjustment logic starts here
-        if (globalTime % 10 === 0) {
+        if (globalTime % 5 === 0) {
           chicken.speed += (Math.random() * 2 - 1) * 0.4;  // Multiply by 0.4 to slow down
-          chicken.speed = Math.max(0.8, Math.min(2, chicken.speed));  // Adjust the range to be slower
+          chicken.speed = Math.max(1, Math.min(2, chicken.speed));  // Adjust the range to be slower
         }
 
         if (globalTime % 5 === 0) {  
