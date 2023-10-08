@@ -55,7 +55,6 @@ class Chicken {
 
 // createChickenButton
 function createChickenButton(id, username, name, imageUrl) {
-  console.log(`Creating button for chicken: ${name}, imageUrl: ${imageUrl}`); // Debugging line
   const chickenButton = document.createElement('div');
   chickenButton.id = `chicken-${id}`;
   chickenButton.classList.add("chicken-button");
