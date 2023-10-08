@@ -197,6 +197,7 @@ function displayRaceHistory() {
       img.style.height = '40px'; // Set the height to 24px
       img.style.display = 'block'; // Set display to block
       img.style.margin = 'auto'; // Center the image
+      img.style.paddingBottom = '8px';
       imgDiv.appendChild(img);
 
       // Create a div for the username
