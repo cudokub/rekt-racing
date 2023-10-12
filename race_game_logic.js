@@ -15,7 +15,7 @@ let beepSound = new Audio('https://rektgang.mypinata.cloud/ipfs/Qmbf8xqZr3PVg9eC
 let currentRaceNumber = 1;
 
 let chickenData;
-fetch('https://rektgang.mypinata.cloud/ipfs/QmUhPcHKZkZiD8RjiQ32z8HEwhk9QSKpsLVpB592eRSB8m?_gl=1*1lekii9*_ga*MTQ2ODA0NTgxNS4xNjUzODgyMDYy*_ga_5RMPXG14TE*MTY5NjY2NjE4Ni4yNy4xLjE2OTY2NjYyMTIuMzQuMC4w')
+fetch('https://rektgang.mypinata.cloud/ipfs/QmeUEf2KYrBQfCHrDbtqUJ6Gut2bixhjCRbZYTfUZhphPr?_gl=1*1q0ymao*_ga*MTQ2ODA0NTgxNS4xNjUzODgyMDYy*_ga_5RMPXG14TE*MTY5NzA5MTE5MC4yOC4xLjE2OTcwOTE2MDQuNjAuMC4w')
   .then(response => response.json())
   .then(data => chickenData = data);
 
@@ -31,7 +31,7 @@ class Chicken {
     this.name = name;
     this.x = x + 25;
     this.y = (trackIndex + 1) * trackHeight - imageSize;
-    this.speed = ((Math.random() * 3 + 2) * 0.50) * 0.4;  // Multiply by 0.4 to slow down
+    this.speed = Math.random() * 0.6 + 0.4;
     this.image = new Image();
     this.image.src = imageUrl;
     this.dirty = true;
