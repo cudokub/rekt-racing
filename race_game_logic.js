@@ -1,5 +1,6 @@
 let canvas;
 let ctx;
+let nextChickenId = 0;
 let chickens = [];
 let availableChickens = [];
 let raceStarted = false;
@@ -31,7 +32,7 @@ class Chicken {
     this.name = name;
     this.x = x + 25;
     this.y = (trackIndex + 1) * trackHeight - imageSize;
-    this.speed = Math.random() * 0.6 + 0.4;
+    this.speed = Math.random() * 0.5 + 0.4;
     this.image = new Image();
     this.image.src = imageUrl;
     this.dirty = true;
@@ -82,24 +83,24 @@ function createChickenButton(id, username, name, imageUrl) {
     chickenButton.appendChild(trashIcon);
     
   
-    // Add a click event listener to the trash icon
-    trashIcon.addEventListener('click', function(event) {
-      event.stopPropagation();  // Prevent the chicken button's click event from firing
-      chickenButton.remove();  // Remove the chicken button from the DOM
-  
-      // Remove the chicken from the availableChickens array
-      const index = availableChickens.findIndex(chicken => chicken.id === id);
-      if (index !== -1) {
-        availableChickens.splice(index, 1);
-      }
-    });
+  // Add a click event listener to the trash icon
+  trashIcon.addEventListener('click', function(event) {
+    event.stopPropagation();  // Prevent the chicken button's click event from firing
+    chickenButton.remove();  // Remove the chicken button from the DOM
 
-    
+    // Remove the chicken from the availableChickens array
+    const index = availableChickens.findIndex(chicken => chicken.id === id);
+    if (index !== -1) {
+      availableChickens.splice(index, 1);
+    }
+  });
+
+  nextChickenId++;  // Increment the ID for the next chicken
 }
 
 // toggleChicken
 function toggleChicken(id) {
-  const chicken = availableChickens[id];
+  const chicken = availableChickens.find(c => c.id === id);
   const existingIndex = chickens.findIndex(c => c.name === chicken.name);
 
   if (existingIndex === -1) {
@@ -394,9 +395,9 @@ function gameLoop() {
         ctx.fillText(`${chicken.username} ${chicken.name}`, rightPadding, middleOfTrack);
         
         // Dynamic speed adjustment logic starts here
-        if (globalTime % 5 === 0) {
-          chicken.speed += (Math.random() * 2 - 1) * 0.4;  // Multiply by 0.4 to slow down
-          chicken.speed = Math.max(1, Math.min(2, chicken.speed));  // Adjust the range to be slower
+        if (globalTime % 3 === 0) {
+          chicken.speed += (Math.random() * 2 - 1) * 0.5;  // Multiply by 0.4 to slow down
+          chicken.speed = Math.max(0.5, Math.min(2, chicken.speed));  // Adjust the range to be slower
         }
 
         if (globalTime % 5 === 0) {  
@@ -639,11 +640,14 @@ function updateLeaderboardDisplay() {
     // Create an img element for the chicken image
     const imgCell = document.createElement("td");
     const img = document.createElement("img");
-    img.src = availableChickens.find(chicken => chicken.name === chickenName && chicken.username === username).imageUrl;
-    img.style.width = '40px'; // Set the size to 32px
-    img.style.display = 'block'; // Set display to block
-    img.style.margin = 'auto'; // Center the image
-    imgCell.appendChild(img);
+    const chicken = availableChickens.find(chicken => chicken.name === chickenName && chicken.username === username);
+    if (chicken) {
+      img.src = chicken.imageUrl;
+      img.style.width = '40px'; // Set the size to 32px
+      img.style.display = 'block'; // Set display to block
+      img.style.margin = 'auto'; // Center the image
+      imgCell.appendChild(img);
+    }
 
     // Create a td element for the name
     const nameCell = document.createElement("td");
@@ -688,7 +692,10 @@ function randomSelectChickens() {
   
   // Reset the "in-race" class for all chicken buttons
   availableChickens.forEach((chicken, id) => {
-    document.getElementById(`chicken-${id}`).classList.remove("in-race");
+    const chickenElement = document.getElementById(`chicken-${id}`);
+    if (chickenElement) {
+      chickenElement.classList.remove("in-race");
+    }
   });
 
   // Create a copy of availableChickens and shuffle it
@@ -750,8 +757,11 @@ function resetRace() {
   resetRaceButton.disabled = false;
 
   // Reset the "in-race" class for all chicken buttons
-  availableChickens.forEach((chicken, id) => {
-    document.getElementById(`chicken-${id}`).classList.remove("in-race");
+  availableChickens.forEach((chicken) => {
+    const chickenElement = document.getElementById(`chicken-${chicken.id}`);
+    if (chickenElement) {
+      chickenElement.classList.remove("in-race");
+    }
   });
 }
 
