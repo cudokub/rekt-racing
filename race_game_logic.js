@@ -397,7 +397,7 @@ function gameLoop() {
         // Dynamic speed adjustment logic starts here
         if (globalTime % 3 === 0) {
           chicken.speed += (Math.random() * 2 - 1) * 0.5;  // Multiply by 0.4 to slow down
-          chicken.speed = Math.max(0.5, Math.min(2, chicken.speed));  // Adjust the range to be slower
+          chicken.speed = Math.max(1, Math.min(2, chicken.speed));  // Adjust the range to be slower
         }
 
         if (globalTime % 5 === 0) {  
